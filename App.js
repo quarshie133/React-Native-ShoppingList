@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, Alert } from "react-native";
 import Header from "./components/Header";
 import ListItem from "./components/ListItem";
 import AddItem from "./components/AddItem";
@@ -17,10 +17,22 @@ export default function App() {
       return prevItems.filter((item) => item.id != id);
     });
   }
+
+  function addItem(item) {
+    if (!item) {
+      Alert.alert("Error", "Pleas enter an item", {
+        item: "OK",
+      });
+    } else {
+      setItems((prevItems) => {
+        return [{ id: 1, text: item }, ...prevItems];
+      });
+    }
+  }
   return (
     <View style={styles.container}>
       <Header title="Shopping List" />
-      <AddItem />
+      <AddItem addItem={addItem} />
       <FlatList
         data={items}
         renderItem={({ item }) => (
